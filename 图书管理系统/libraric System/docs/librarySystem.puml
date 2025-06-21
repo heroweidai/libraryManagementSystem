@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+class Book {
+  -title: String
+  -isbn: String
+  -author: String
+  -available: boolean
+  +toString(): String
+}
+
+class BorrowRecord {
+  -studentId: String
+  -isbn: String
+  -borrowDate: LocalDate
+  -returnDate: LocalDate
+  +isOverdue(): boolean
+}
+
+class FileDataService {
+  -BOOKS_FILE: String
+  -RECORDS_FILE: String
+  +saveBooks(List<Book>)
+  +loadBooks(): List<Book>
+  +saveRecords(List<BorrowRecord>)
+  +loadRecords(): List<BorrowRecord>
+}
+
+class LibraryService {
+  -books: List<Book>
+  -records: List<BorrowRecord>
+  -fileDataService: FileDataService
+  +addBook(String, String, String)
+  +borrowBook(String, String)
+  +searchBooks(String): List<Book>
+}
+
+class MenuService {
+  -scanner: Scanner
+  -libraryService: LibraryService
+  +showMainMenu()
+}
+
+Book "1" *-- "0..*" BorrowRecord
+LibraryService --> FileDataService
+LibraryService --> Book
+LibraryService --> BorrowRecord
+MenuService --> LibraryService
+@enduml
+```
